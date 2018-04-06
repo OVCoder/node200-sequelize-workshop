@@ -5,7 +5,7 @@ const sequelize = require('sequelize');
 const db = require('./db/models');
 
 //sequelize configuration
-db.sequelize.sync();
+db.sequelize.sync(); //this creates the tables in the database
 
 
 const app = express();
