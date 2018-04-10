@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   var Blog = sequelize.define('Blog', {
     title: {type: DataTypes.STRING, required: true},
-    authorID:{type: DataTypes.INTEGER, required: false},
+    author:{type: DataTypes.INTEGER, required: false},
     article: {type: DataTypes.TEXT, required:true},
     featured: {type: DataTypes.BOOLEAN, required: true},
     published: {type: DataTypes.DATE, required: true}
@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
   Blog.associate = function(models) {
     // associations are defined here
     models.Blog.belongsTo(models.Author);
+  
   };
   return Blog;
 };   
+   
