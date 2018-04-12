@@ -63,17 +63,19 @@ describe('/api/blogs', function () {
                     expect(res).to.have.status(201);
                     expect(res.body).to.not.be.null;
                     expect(res.body.id).to.exist;
-
+                    
                     const savedBlogId = res.body.id;
 
                     chai.request(app)
                         .get(`/api/blogs/${res.body.id}`)
                         .end((err, res) => {
+                        
+                            console.log("rspond from test: " + res.body);
                             expect(res).to.have.status(200);
                             expect(err).to.be.null;
                             expect(res.body.id).to.exist;
                             expect(res.body.id).to.equal(savedBlogId);
-                            expect(res.body.authorId).to.equal(author.id);
+                            expect(res.body.AuthorId).to.equal(author.id);
 
                             done();
                         });

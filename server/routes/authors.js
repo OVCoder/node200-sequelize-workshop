@@ -1,16 +1,62 @@
 const express = require('express');
 const router = express.Router();
-const Blog = require('./models/blog.js');
-const Author = require('./models/author.js');
+const db = require('../db/models');
 
 
 router.route('/')
 
 // GET all Authors
   .get((req, res) =>{
-    Author
+    db.Author
       .findAll()
       .then(authors => {
         res.status(200).send(authors);
+      });
+  })
+
+  .post((req, res) => {
+    db.Author
+      .create(req.body)
+      .then( newAuthor => {
+        res.status(200).send(newAuthor);
+      });
+  })
+
+router.route('/:id')
+  .get((req, res) => {
+    db.Author
+      .findById(req.params.id)
+      .then(returnedAuthor => {
+        res.status(200).send(returnedAuthor);
+      });
+  })
+  .put((req, res) => {
+    db.Author
+      .update(req.body, {where: {id: {$eq: req.params.id}}})
+      .then(updatedAuthor => {
+        res.send(updatedAuthor);
+      })
+      .catch(function(err) {
+        // print the error details
+        console.log(err, req.body);
+    });
+  })
+  .delete((req, res, next) => {
+    db.Author
+      .findById(req.params.id)
+      .then(result => {
+        result.destroy()
+      })
+      .then(res.send());
+  })
+
+router.route('/:id/blogs')
+  .get((req, res) => {
+    db.Blog 
+      .findAll({where: {AuthorId: req.params.id}})
+      .then(result =>{
+        res.send(result);
       })
   })
+
+module.exports = router;

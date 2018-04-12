@@ -16,4 +16,7 @@ app.get('/', (req, res) => {
   res.status(200).send();
 });
 
+app.use('/api/authors', require('./routes/authors'));
+app.use('/api/blogs', require('./routes/blogs'));
+
 module.exports = app;
