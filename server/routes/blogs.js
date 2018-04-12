@@ -54,12 +54,13 @@ router.route('/')
 
     .delete((req, res, next)=> {
       db.Blog
-        .findById(req.params.id)
-        .then(( blogToBeDeleted) => {
-          if (blogToBeDeleted) {
-          blogToBeDeleted.destroy();
-          } else{res.status(404).send()}
-        })
+        .destroy({where:{id:{$eq: req.params.id}}})
+        // .findById(req.params.id)
+        // .then(( blogToBeDeleted) => {
+        //   if (blogToBeDeleted) {
+        //   blogToBeDeleted.destroy();
+        //   } else{res.status(404).send()}
+        // })   
         .then(res.send());
     })
 

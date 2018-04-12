@@ -110,12 +110,15 @@ describe('/api/blogs', function () {
             chai.request(app)
                 .delete(`/api/blogs/${blog.id}`)
                 .end((err, res) => {
+                    console.log("!!!!!BLOG ID IS -" + blog.id);
                     expect(err).to.be.null;
                     expect(res).to.have.status(200);
 
                     chai.request(app)
                         .get(`/api/blogs/${blog.id}`)
                         .end((err, res) => {
+                            console.log("!!!!!2nd BLOG ID IS -" + blog.id);
+                            console.log("STATUS IS -" + res.status);
                             expect(res).to.have.status(404);
                             done();
                         });

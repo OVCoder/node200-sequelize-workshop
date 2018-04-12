@@ -18,7 +18,7 @@ router.route('/')
     db.Author
       .create(req.body)
       .then( newAuthor => {
-        res.status(200).send(newAuthor);
+        res.status(201).send(newAuthor);
       });
   })
 
@@ -27,14 +27,19 @@ router.route('/:id')
     db.Author
       .findById(req.params.id)
       .then(returnedAuthor => {
+        if(returnedAuthor){
         res.status(200).send(returnedAuthor);
+      }else{
+        res.status(404).send();
+      }
       });
   })
+
   .put((req, res) => {
     db.Author
       .update(req.body, {where: {id: {$eq: req.params.id}}})
       .then(updatedAuthor => {
-        res.send(updatedAuthor);
+        res.status(204).send(updatedAuthor);
       })
       .catch(function(err) {
         // print the error details
@@ -43,10 +48,11 @@ router.route('/:id')
   })
   .delete((req, res, next) => {
     db.Author
-      .findById(req.params.id)
-      .then(result => {
-        result.destroy()
-      })
+      .destroy({where:{id:{$eq: req.params.id}}})
+      // .findById(req.params.id)
+      // .then(result => {
+      //   result.destroy()
+      // })
       .then(res.send());
   })
 
